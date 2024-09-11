@@ -14,7 +14,13 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })) ; //for url paylo
 
 
 
-//routes
+//router Import
+import { createRouter } from "./routes/create.route";
+
+
+//route
+
+app.use("/api/v1/create",createRouter)
 
 
 
@@ -40,7 +46,7 @@ app.use((err:unknown,req:Request,res:Response,next:NextFunction)=>{
     if (err instanceof Error) {
         
         console.error(err.message);
-        
+
       } else {
         
         console.error('An unknown error occurred');
