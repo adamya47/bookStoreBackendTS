@@ -34,13 +34,14 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })) ; //for url paylo
 import { createRouter } from "./routes/create.route";
 import { searchRouter } from "./routes/search.routes";
 import { transactionRouter } from "./routes/transaction.route";
-
+import { helperRouter } from "./routes/helper.routes";
 
 //route
 
 app.use("/api/v1/create",createRouter)
 app.use("/api/v1/search",searchRouter)
 app.use("/api/v1/transaction",transactionRouter)
+app.use("/api/v1/helper",helperRouter)
 
 
 
@@ -48,8 +49,7 @@ app.use("/api/v1/transaction",transactionRouter)
 
 
 
-
-
+app.get("/",(req:Request,res:Response)=>res.json({status:"Ok Working"}))
 app.use((err:unknown,req:Request,res:Response,next:NextFunction)=>{
    
     if(err instanceof ApiError){
