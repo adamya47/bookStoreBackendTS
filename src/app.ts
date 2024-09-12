@@ -33,12 +33,14 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" })) ; //for url paylo
 //router Import
 import { createRouter } from "./routes/create.route";
 import { searchRouter } from "./routes/search.routes";
+import { transactionRouter } from "./routes/transaction.route";
+
 
 //route
 
 app.use("/api/v1/create",createRouter)
 app.use("/api/v1/search",searchRouter)
-
+app.use("/api/v1/transaction",transactionRouter)
 
 
 

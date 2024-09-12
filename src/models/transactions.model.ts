@@ -4,9 +4,10 @@ interface ITransaction extends Document{
 
     bookId:mongoose.Types.ObjectId;
     userId:mongoose.Types.ObjectId;
-    issueData:Date;
-    returnData ?:Date;
-    status:'rented'|'returned'
+    issueDate:Date;
+    returnDate ?:Date;
+    status:'rented'|'returned';
+    totalRentGenerated ?:number
 
 }
 
@@ -34,6 +35,10 @@ const transactionSchema :Schema=new Schema({
       type: String,
       enum: ['rented', 'returned'],
       required: true
+    },
+    totalRentGenerated:{
+      type:Number,
+      default:0
     }
 
 
