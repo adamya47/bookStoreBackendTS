@@ -1,4 +1,5 @@
 import { Router } from "express";
+import {userCreate,bookCreate } from "../controllers/create.controller";
 
 
 
@@ -6,6 +7,6 @@ import { Router } from "express";
 export const createRouter=Router();
 
 
-createRouter.route("/userCreate")
-createRouter.route("/bookCreate")
+createRouter.route("/userCreate").post(userCreate);
+createRouter.route("/bookCreate").post(bookCreate);
 

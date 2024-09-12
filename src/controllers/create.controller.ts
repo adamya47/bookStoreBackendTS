@@ -3,10 +3,11 @@ import { asyncHandler } from "../utilities/asyncHandler";
 import { ApiError } from "../utilities/ApiError";
 import { ApiResponse } from "../utilities/ApiResponse";
 import { User } from "../models/user.model";
+import { Book } from "../models/book.model";
 
 const userCreate=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
 
-
+console.log("reached");
 try {
     const{username,password}=req.body;
     if(!username || !password){
@@ -40,5 +41,27 @@ if(!userReturned){
 
 })
 
+const bookCreate=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
 
-export {userCreate}
+   
+        const { bookname, category, rentPerDay } = req.body;
+        
+        if(!bookname || !category || !rentPerDay ){
+            throw new ApiError(400,"Enter all information about the book");
+        }
+
+        const book=await Book.create({
+            bookname,category,rentPerDay
+        })
+
+        if(!book){
+            throw new ApiError(500,"Some issue while saving book info")
+        }
+
+        return res.status(201).json(new ApiResponse(201,book,"Successfully entered data"))
+        
+    
+
+})
+
+export {userCreate,bookCreate}

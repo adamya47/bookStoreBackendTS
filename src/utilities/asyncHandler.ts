@@ -5,7 +5,7 @@ export const asyncHandler=(fn:(req:Request,res:Response,next:NextFunction)=>Prom
 
 return (req:Request,res:Response,next:NextFunction)=>{
 
-    Promise.resolve(fn).catch(next); //next helps to catch the error and pass it to the error handling e
+    Promise.resolve(fn(req,res,next)).catch(next); //next helps to catch the error and pass it to the error handling e
 };
 
 };
