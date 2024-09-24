@@ -20,8 +20,8 @@ FOR THIS BOOKSTORE BACKEND SERVER ( https://bookstore-backend-ts.vercel.app )
 
 *Get totalRent earned by a book-          https://bookstore-backend-ts.vercel.app/api/v1/transaction/totalRent (INPUT BOOKNAME)
 
-*No of books rented and returned      https://bookstore-backend-ts.vercel.app/api/v1/transaction/totalRentedAndReturned?startDate=2024-01-01&endDate=2024-09-15       (input from query startDate and endDate)
-in a particular date range 
+*No of books rented and returned in a particular date range      https://bookstore-backend-ts.vercel.app/api/v1/transaction/totalRentedAndReturned?startDate=2024-01-01&endDate=2024-09-15       (input from query startDate and endDate)
+
 
 *Create a user-                           https://bookstore-backend-ts.vercel.app/api/v1/create/userCreate  (INPUT username,password)
 
