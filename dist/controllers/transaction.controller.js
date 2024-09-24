@@ -138,7 +138,8 @@ const totalNoOfRentedAndReturned = (0, asyncHandler_1.asyncHandler)((req, res, n
         if (!totalRentedBooks && !totalReturnedBooks) {
             throw new ApiError_1.ApiError(500, "Some issue from server side");
         }
-        return res.status(200).json(new ApiResponse_1.ApiResponse(200, totalTransaction));
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200,{ total_num_of_Rented: totalRentedBooks,
+            total_num_of_returned: totalReturnedBooks }));
     }
     catch (error) {
         next(error);
