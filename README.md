@@ -6,6 +6,8 @@ FOR THIS BOOKSTORE BACKEND SERVER ( https://bookstore-backend-ts.vercel.app )
 
 *Get all Books -  https://bookstore-backend-ts.vercel.app/api/v1/helper/allBooks
 
+*Get all transactions -                     https://bookstore-backend-ts.vercel.app/api/v1/helper/allTransactions
+
 *Enter bookname or term to find-     https://bookstore-backend-ts.vercel.app/api/v1/search/ByName?term=A          (INPUT IS TAKEN in the form of query "term" )
 
 *Find Books by rent range -           https://bookstore-backend-ts.vercel.app/api/v1/search/byRange?minRent=10&maxRent=45 (INPUT-query- minRent and maxRent (number format))
@@ -18,6 +20,10 @@ FOR THIS BOOKSTORE BACKEND SERVER ( https://bookstore-backend-ts.vercel.app )
 
 *Get totalRent earned by a book-          https://bookstore-backend-ts.vercel.app/api/v1/transaction/totalRent (INPUT BOOKNAME)
 
+*No of books rented and returned      https://bookstore-backend-ts.vercel.app/api/v1/transaction/totalRentedAndReturned?startDate=2024-01-01&endDate=2024-09-15       (input from query startDate and endDate)
+in a particular date range 
+
 *Create a user-                           https://bookstore-backend-ts.vercel.app/api/v1/create/userCreate  (INPUT username,password)
 
 *Create a book entry -                 https://bookstore-backend-ts.vercel.app/api/v1/create/bookCreate      (INPUT bookname,category, rentPerDay(NUMBER) )
+
