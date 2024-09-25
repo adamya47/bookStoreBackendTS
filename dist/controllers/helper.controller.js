@@ -9,19 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUsers = exports.getAllBooks = void 0;
+exports.getTransactions = exports.getAllUsers = exports.getAllBooks = void 0;
 const asyncHandler_1 = require("../utilities/asyncHandler");
 const ApiError_1 = require("../utilities/ApiError");
 const ApiResponse_1 = require("../utilities/ApiResponse");
 const user_model_1 = require("../models/user.model");
 const book_model_1 = require("../models/book.model");
+const transactions_model_1 = require("../models/transactions.model");
 const getAllUsers = (0, asyncHandler_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield user_model_1.User.find().select('-password');
         if (!users || users.length === 0) {
             throw new ApiError_1.ApiError(404, 'No users found');
         }
-        res.status(200).json(new ApiResponse_1.ApiResponse(200, users, 'Users fetched successfully'));
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200, users, 'Users fetched successfully'));
     }
     catch (error) {
         next(error);
@@ -34,10 +35,22 @@ const getAllBooks = (0, asyncHandler_1.asyncHandler)((req, res, next) => __await
         if (!books || books.length === 0) {
             throw new ApiError_1.ApiError(404, "No Books found");
         }
-        res.status(200).json(new ApiResponse_1.ApiResponse(200, books, "Books Fetched!"));
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200, books, "Books Fetched!"));
     }
     catch (error) {
         next(error);
     }
 }));
 exports.getAllBooks = getAllBooks;
+const getTransactions = (0, asyncHandler_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allTrans = yield transactions_model_1.Transaction.find();
+        if (!allTrans || allTrans.length === 0)
+            throw new ApiError_1.ApiError(400, "no transactions found");
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200, allTrans, "All transactions obtained"));
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+exports.getTransactions = getTransactions;

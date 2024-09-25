@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.totalRentGenrated = exports.bookReturned = exports.bookIssued = void 0;
+exports.totalNoOfRentedAndReturned = exports.totalRentGenrated = exports.bookReturned = exports.bookIssued = void 0;
 const asyncHandler_1 = require("../utilities/asyncHandler");
 const ApiError_1 = require("../utilities/ApiError");
 const ApiResponse_1 = require("../utilities/ApiResponse");
@@ -113,3 +113,36 @@ const totalRentGenrated = (0, asyncHandler_1.asyncHandler)((req, res, next) => _
     }
 }));
 exports.totalRentGenrated = totalRentGenrated;
+const totalNoOfRentedAndReturned = (0, asyncHandler_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { startDate, endDate } = req.query;
+        if (!startDate || !endDate) {
+            throw new ApiError_1.ApiError(400, "All the Inputs not obtained");
+        }
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            throw new ApiError_1.ApiError(400, "Inputs not valid");
+        }
+        const totalTransaction = yield transactions_model_1.Transaction.find({
+            $or: [
+                { issueDate: { $gte: start, $lte: end } },
+                { returnDate: { $gte: start, $lte: end } }
+            ]
+        });
+        if (!totalTransaction || totalTransaction.length === 0) {
+            throw new ApiError_1.ApiError(400, "No transaction or not able to find any transaction");
+        }
+        const totalRentedBooks = totalTransaction.filter((val) => val.status === "rented" && val.issueDate >= start && val.issueDate <= end).length;
+        const totalReturnedBooks = totalTransaction.filter((val) => val.status === "returned").length;
+        if (!totalRentedBooks || !totalReturnedBooks) {
+            throw new ApiError_1.ApiError(500, "Some issue from server side");
+        }
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200, { total_num_of_Rented: totalRentedBooks,
+            total_num_of_returned: totalReturnedBooks }));
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+exports.totalNoOfRentedAndReturned = totalNoOfRentedAndReturned;

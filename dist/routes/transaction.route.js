@@ -7,3 +7,4 @@ exports.transactionRouter = (0, express_1.Router)();
 exports.transactionRouter.route("/rented").post(transaction_controller_1.bookIssued);
 exports.transactionRouter.route("/returned").post(transaction_controller_1.bookReturned);
 exports.transactionRouter.route("/totalRent").get(transaction_controller_1.totalRentGenrated);
+exports.transactionRouter.route("/totalRentedAndReturned").get(transaction_controller_1.totalNoOfRentedAndReturned);
