@@ -133,6 +133,7 @@ const totalNoOfRentedAndReturned = (0, asyncHandler_1.asyncHandler)((req, res, n
         if (!totalTransaction || totalTransaction.length === 0) {
             throw new ApiError_1.ApiError(400, "No transaction or not able to find any transaction");
         }
+<<<<<<< HEAD
         //[] here means key is dynamic
         const dailyData = {};
         totalTransaction.forEach((trans) => {
@@ -155,6 +156,15 @@ const totalNoOfRentedAndReturned = (0, asyncHandler_1.asyncHandler)((req, res, n
         if (!dailyData)
             throw new ApiError_1.ApiError(500, "Some issues while obtaing data");
         return res.status(200).json(new ApiResponse_1.ApiResponse(200, dailyData));
+=======
+        const totalRentedBooks = totalTransaction.filter((val) => val.status === "rented" && val.issueDate >= start && val.issueDate <= end).length;
+        const totalReturnedBooks = totalTransaction.filter((val) => val.status === "returned").length;
+        if (!totalRentedBooks && !totalReturnedBooks) {
+            throw new ApiError_1.ApiError(500, "Some issue from server side");
+        }
+        return res.status(200).json(new ApiResponse_1.ApiResponse(200,{ total_num_of_Rented: totalRentedBooks,
+            total_num_of_returned: totalReturnedBooks }));
+>>>>>>> 13468e26561979c5d9711bfb685f8e1e9718dc37
     }
     catch (error) {
         next(error);
