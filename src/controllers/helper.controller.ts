@@ -4,6 +4,7 @@ import { ApiError } from "../utilities/ApiError";
 import { ApiResponse } from "../utilities/ApiResponse";
 import { User } from "../models/user.model";
 import { Book } from "../models/book.model";
+import { Transaction } from "../models/transactions.model";
 
 
 const getAllUsers = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -15,7 +16,7 @@ const getAllUsers = asyncHandler(async (req: Request, res: Response, next: NextF
       if (!users || users.length === 0) {
         throw new ApiError(404, 'No users found');
       }
-      res.status(200).json(new ApiResponse(200, users, 'Users fetched successfully'));
+     return res.status(200).json(new ApiResponse(200, users, 'Users fetched successfully'));
     } catch (error) {
       next(error);
     }
@@ -29,7 +30,7 @@ const getAllBooks=asyncHandler(async(req:Request,res:Response,next:NextFunction)
         if(!books || books.length===0){
             throw new ApiError(404,"No Books found")
         }
-        res.status(200).json(new ApiResponse(200,books,"Books Fetched!"))
+       return res.status(200).json(new ApiResponse(200,books,"Books Fetched!"))
         
     } catch (error) {
         next(error);
@@ -37,6 +38,21 @@ const getAllBooks=asyncHandler(async(req:Request,res:Response,next:NextFunction)
 
 })
 
+const getTransactions=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
 
-export {getAllBooks,getAllUsers}
+  try {
+   
+    const allTrans=await Transaction.find();
+
+    
+    if(!allTrans || allTrans.length===0)throw new ApiError(400,"no transactions found");
+  
+   return res.status(200).json(new ApiResponse(200,allTrans,"All transactions obtained"))
+  } catch (error) {
+    next(error);
+  }
+
+})
+
+export {getAllBooks,getAllUsers,getTransactions}
   
