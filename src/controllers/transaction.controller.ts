@@ -179,7 +179,7 @@ const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,nex
        const totalRentedBooks=totalTransaction.filter((val)=>val.status ==="rented" && val.issueDate>=start && val.issueDate<=end).length;
        const totalReturnedBooks=totalTransaction.filter((val)=>val.status==="returned").length
   
-       if(!totalRentedBooks || !totalReturnedBooks){
+       if(!totalRentedBooks && !totalReturnedBooks){
         throw new ApiError(500,"Some issue from server side")
        }
 
