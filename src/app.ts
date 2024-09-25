@@ -50,6 +50,7 @@ app.use("/api/v1/helper",helperRouter)
 
 
 app.get("/",(req:Request,res:Response)=>res.json({status:"Ok Working"}))
+
 app.use((err:unknown,req:Request,res:Response,next:NextFunction)=>{
    
     if(err instanceof ApiError){

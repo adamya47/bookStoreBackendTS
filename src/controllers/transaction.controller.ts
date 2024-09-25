@@ -68,6 +68,7 @@ const bookReturned=asyncHandler(async(req:Request,res:Response,next:NextFunction
         }
     
         const user=await User.findOne({username});
+    
         if(!user){
             throw new ApiError(400,"Invalid user")
         }
@@ -105,7 +106,8 @@ const bookReturned=asyncHandler(async(req:Request,res:Response,next:NextFunction
     rentedBookTrans.totalRentGenerated=totalRent;
 
 
-   await rentedBookTrans.save();
+   cosnt check =await rentedBookTrans.save();
+   if(!check)
 
     return res.status(201).json(new ApiResponse(201,rentedBookTrans,"Book returned"))
     
@@ -148,6 +150,53 @@ const totalRentGenrated=asyncHandler(async(req:Request,res:Response,next:NextFun
     }
 })
 
+const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
+
+    try {
+        const{startDate,endDate}=req.body;
+
+        if(!startDate || endDate){
+            throw new ApiError(400,"All the Inputs not obtained");
+        }
+        const start=new Date(startDate as string);
+        const end=new Date(endDate as string)
+
+        if(isNaN(start.getTime()) || isNaN(end.getTime())){
+            throw new ApiError(400,"Inputs not valid");
+        }
+
+        const totalTransaction=await Transaction.find({
+
+            $or:[
+                {issueDate:{$gte:start ,$lte:end}},
+                {returnDate:{$gte:start,$lte:end}}
+            ]
+
+        });
+
+        if(!totalTransaction  || totalTransaction.length===0){
+            throw new ApiError(400,"No transaction or not able to find any transaction")
+        }
+
+       const totalRentedBooks=totalTransaction.filter((val)=>val.status ==="rented" && val.issueDate>=start && val.issueDate<=end).length;
+       const totalReturnedBooks=totalTransaction.filter((val)=>val.status==="returned" && val.returnDate>=start && val.returnDate<=end).length
+  
+       if(!totalRentedBooks || !totalReturnedBooks){
+        throw new ApiError(500,"Some issue from server side")
+       }
+
+       return res.status(200).json(new ApiResponse(200,{total_num_of_Rented:totalRentedBooks,
+                                                 total_num_of_returned:totalReturnedBooks })) ;
+
+ 
+    } catch (error) {
+        next(error);
+    }
 
 
-export{bookIssued,bookReturned,totalRentGenrated}
+
+
+})
+
+
+export{bookIssued,bookReturned,totalRentGenrated,totalNoOfRentedAndReturned}
