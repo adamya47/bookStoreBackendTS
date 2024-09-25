@@ -105,9 +105,7 @@ const bookReturned=asyncHandler(async(req:Request,res:Response,next:NextFunction
     
     rentedBookTrans.totalRentGenerated=totalRent;
 
-
-   cosnt check =await rentedBookTrans.save();
-   if(!check)
+    await rentedBookTrans.save();
 
     return res.status(201).json(new ApiResponse(201,rentedBookTrans,"Book returned"))
     
@@ -153,7 +151,7 @@ const totalRentGenrated=asyncHandler(async(req:Request,res:Response,next:NextFun
 const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
 
     try {
-        const{startDate,endDate}=req.body;
+        const{startDate,endDate}=req.query;
 
         if(!startDate || endDate){
             throw new ApiError(400,"All the Inputs not obtained");
