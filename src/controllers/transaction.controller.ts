@@ -153,7 +153,7 @@ const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,nex
     try {
         const{startDate,endDate}=req.query;
 
-        if(!startDate || endDate){
+        if(!startDate || !endDate){
             throw new ApiError(400,"All the Inputs not obtained");
         }
         const start=new Date(startDate as string);
