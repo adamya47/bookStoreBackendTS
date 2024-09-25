@@ -199,7 +199,7 @@ const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,nex
     const retDate=trans.returnDate.toISOString().split('T')[0];
 
     if(!dailyData[retDate]){
-        dailyData.retDate={rented:0,returned:0}
+        dailyData[retDate]={rented:0,returned:0}
     }
     dailyData[retDate].returned += 1;
 

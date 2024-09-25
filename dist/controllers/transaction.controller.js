@@ -147,7 +147,7 @@ const totalNoOfRentedAndReturned = (0, asyncHandler_1.asyncHandler)((req, res, n
             if ((trans === null || trans === void 0 ? void 0 : trans.returnDate) && trans.status === 'returned') {
                 const retDate = trans.returnDate.toISOString().split('T')[0];
                 if (!dailyData[retDate]) {
-                    dailyData.retDate = { rented: 0, returned: 0 };
+                    dailyData[retDate] = { rented: 0, returned: 0 };
                 }
                 dailyData[retDate].returned += 1;
             }
