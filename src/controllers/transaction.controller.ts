@@ -163,55 +163,48 @@ const totalNoOfRentedAndReturned=asyncHandler(async(req:Request,res:Response,nex
             throw new ApiError(400,"Inputs not valid");
         }
 
-        const totalTransaction=await Transaction.find({
-
-            $or:[
-                {issueDate:{$gte:start ,$lte:end}},
-                {returnDate:{$gte:start,$lte:end}}
-            ]
-
-        });
+        const totalTransaction = await Transaction.aggregate([
+           
+            {
+                $match: {                                                 //only obtained required docs in through this stage
+                    $or: [ { issueDate: { $gte: start, $lte: end } },
+                        { returnDate: { $gte: start, $lte: end } } ]
+                }
+            },
+            {
+                $project: {
+                    date: {     //common date use kr li,whether status is rented or returned
+                        $cond: {
+                            if: { $eq: ["$status", "rented"] }, 
+                            then: { $dateToString: {format: "%Y-%m-%d", date: "$issueDate"} },
+                   else: { $dateToString: {format: "%Y-%m-%d", date: "$returnDate"} } 
+                        }
+                    },
+                    status: 1
+                }
+            },
+            
+            {
+                $group: {
+                    _id: "$date",
+                    rented: { $sum: { $cond: [{ $eq: ["$status", "rented"] }, 1, 0] } }, 
+                     returned: {$sum:{ $cond:[{$eq:["$status","returned"]},1,0]}}
+                }
+            },
+            
+            {
+                $sort: { _id: 1 }  //id date hai,and we want it in ascending order thats why 1 ,for descending -1
+            }
+        ]);
 
         if(!totalTransaction  || totalTransaction.length===0){
             throw new ApiError(400,"No transaction or not able to find any transaction")
         }
 
 
-                  //[] here means key is dynamic
 
-     const dailyData:{[key:string] :{returned:number,rented:number}}={}
 
-     totalTransaction.forEach((trans)=>{
-
-        if(trans.status==='rented' && trans.issueDate){
-            const issDate=trans.issueDate.toISOString().split("T")[0]; //toISOStirng for converting Date format to string in ISO format
-                                                                       //split so that we obtain only date part(it will return array of two splitted parts)
-            
-      if(!dailyData[issDate]){
-        dailyData[issDate]={rented:0,returned:0}
-      }
-
-     dailyData[issDate].rented+=1;
-
-     }
-
-     if(trans?.returnDate && trans.status==='returned' ){
-    const retDate=trans.returnDate.toISOString().split('T')[0];
-
-    if(!dailyData[retDate]){
-        dailyData[retDate]={rented:0,returned:0}
-    }
-    dailyData[retDate].returned += 1;
-
-     }
-
-    }
-    
-    )
-
-    if(!dailyData)throw new ApiError(500,"Some issues while obtaing data")
-
-       return res.status(200).json(new ApiResponse(200,dailyData)) ;
+       return res.status(200).json(new ApiResponse(200,totalTransaction)) ;
 
  
     } catch (error) {
