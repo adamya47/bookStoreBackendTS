@@ -50,6 +50,10 @@ app.use("/api/v1/edit",editRouter)
 
 app.get("/",(req:Request,res:Response)=>res.json({status:"Ok Working"}))
 
+app.get("/api/v1/edit/test", (req: Request, res: Response) => {
+  res.json({ message: "Edit route is working!" });
+});
+
 app.use((err:unknown,req:Request,res:Response,next:NextFunction)=>{
    
     if(err instanceof ApiError){
