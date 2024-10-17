@@ -54,5 +54,31 @@ const getTransactions=asyncHandler(async(req:Request,res:Response,next:NextFunct
 
 })
 
-export {getAllBooks,getAllUsers,getTransactions}
+const deleteBook=asyncHandler(async(req:Request,res:Response,next:NextFunction)=>{
+
+  try {
+    
+    const {bookname}=req.body;
+
+    if(!bookname){
+      throw new ApiError(400,"Please give the bookname ,to be deleted");
+    }
+  
+    const deletedBook=await Book.findOneAndDelete({bookname});
+
+    if(!deletedBook){
+      throw new ApiError(400,"No book found or unable to delete the book")
+    }
+
+    res.status(200).json(new ApiResponse(200,deleteBook,"Book deleted !"))
+
+
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+export {getAllBooks,getAllUsers,getTransactions,deleteBook}
   
