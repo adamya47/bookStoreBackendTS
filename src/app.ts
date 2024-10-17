@@ -35,6 +35,7 @@ import { createRouter } from "./routes/create.route";
 import { searchRouter } from "./routes/search.routes";
 import { transactionRouter } from "./routes/transaction.route";
 import { helperRouter } from "./routes/helper.routes";
+import { editRouter } from "./routes/edit.routes";
 
 //route
 
@@ -42,6 +43,7 @@ app.use("/api/v1/create",createRouter)
 app.use("/api/v1/search",searchRouter)
 app.use("/api/v1/transaction",transactionRouter)
 app.use("/api/v1/helper",helperRouter)
+app.use("/api/v1/edit",editRouter)
 
 
 
