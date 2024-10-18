@@ -6,6 +6,12 @@ FOR THIS BOOKSTORE BACKEND SERVER ( https://bookstore-backend-ts.vercel.app )
 
 *Get all Books -  https://bookstore-backend-ts.vercel.app/api/v1/helper/allBooks
 
+*Delete a book -https://bookstore-backend-ts.vercel.app/api/v1/helper/delete (INPUT-bookname)(from req.body)
+
+*Edit a bookname - https://bookstore-backend-ts.vercel.app/api/v1/edit/bookname (INPUT - name,newName)(from req.body)
+
+*Edit a book category - https://bookstore-backend-ts.vercel.app/api/v1/edit/category (INPUT - name,newCat ) (from req.body)
+
 *Get all transactions -                     https://bookstore-backend-ts.vercel.app/api/v1/helper/allTransactions
 
 *Enter bookname or term to find-     https://bookstore-backend-ts.vercel.app/api/v1/search/ByName?term=A          (INPUT IS TAKEN in the form of query "term" )
