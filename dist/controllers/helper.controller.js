@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTransactions = exports.getAllUsers = exports.getAllBooks = void 0;
+exports.deleteBook = exports.getTransactions = exports.getAllUsers = exports.getAllBooks = void 0;
 const asyncHandler_1 = require("../utilities/asyncHandler");
 const ApiError_1 = require("../utilities/ApiError");
 const ApiResponse_1 = require("../utilities/ApiResponse");
@@ -54,3 +54,20 @@ const getTransactions = (0, asyncHandler_1.asyncHandler)((req, res, next) => __a
     }
 }));
 exports.getTransactions = getTransactions;
+const deleteBook = (0, asyncHandler_1.asyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { bookname } = req.body;
+        if (!bookname) {
+            throw new ApiError_1.ApiError(400, "Please give the bookname ,to be deleted");
+        }
+        const deletedBook = yield book_model_1.Book.findOneAndDelete({ bookname });
+        if (!deletedBook) {
+            throw new ApiError_1.ApiError(400, "No book found or unable to delete the book");
+        }
+        res.status(200).json(new ApiResponse_1.ApiResponse(200, deleteBook, "Book deleted !"));
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+exports.deleteBook = deleteBook;

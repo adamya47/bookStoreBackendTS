@@ -12,7 +12,7 @@ exports.app.use((0, cors_1.default)());
 //option for preFlight request,imp for browser to determine if cookies can be sent
 exports.app.options('*', (req, res) => {
     res.header('Access-Control-Allow-Origin', 'https://mental-health-wallah-mhw.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE,PATCH,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.sendStatus(200);
 });
@@ -25,12 +25,17 @@ const create_route_1 = require("./routes/create.route");
 const search_routes_1 = require("./routes/search.routes");
 const transaction_route_1 = require("./routes/transaction.route");
 const helper_routes_1 = require("./routes/helper.routes");
+const edit_routes_1 = require("./routes/edit.routes");
 //route
 exports.app.use("/api/v1/create", create_route_1.createRouter);
 exports.app.use("/api/v1/search", search_routes_1.searchRouter);
 exports.app.use("/api/v1/transaction", transaction_route_1.transactionRouter);
 exports.app.use("/api/v1/helper", helper_routes_1.helperRouter);
+exports.app.use("/api/v1/edit", edit_routes_1.editRouter);
 exports.app.get("/", (req, res) => res.json({ status: "Ok Working" }));
+exports.app.get("/api/v1/edit/test", (req, res) => {
+    res.json({ message: "Edit route is working!" });
+});
 exports.app.use((err, req, res, next) => {
     if (err instanceof ApiError_1.ApiError) {
         return res.status(err.statusCode).json({ message: err.message });

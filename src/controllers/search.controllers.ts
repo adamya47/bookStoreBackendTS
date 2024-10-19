@@ -11,7 +11,6 @@ import { Book } from "../models/book.model";
 
 const searchBooks = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
 try {
-    
         const {term} = req.query;  
         if (!term) {
           throw new ApiError(400,"term is required");
